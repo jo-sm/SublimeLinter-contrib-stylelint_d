@@ -1,0 +1,10 @@
+SublimeLinter-contrib-stylelint_d
+-------------------------------
+This linter plugin for SublimeLinter provides an interface to stylelint_d.
+
+** IMPORTANT! **
+
+Before this plugin will activate, you *must*
+follow the installation instructions here:
+
+https://github.com/jo-sm/SublimeLinter-contrib-stylelint_d
