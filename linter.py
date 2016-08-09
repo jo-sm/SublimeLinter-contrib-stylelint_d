@@ -17,11 +17,11 @@ class Stylelint_d(NodeLinter):
     """Provides an interface to stylelint_d."""
 
     syntax = ('css', 'sass', 'scss', 'postcss', 'less')
-    cmd = ('stylelint_d', '@')
-    executable = 'stylelint_d'
+    cmd = ('stylelint_d', '--stdin', '--file', '@')
+    npm_name = 'stylelint_d'
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
-    version_requirement = '>= 1.0.4'
+    version_requirement = '>= 1.0.5'
     line_col_base = (1, 1)
     error_stream = util.STREAM_BOTH
     comment_re = r'\s*/[/*]'
