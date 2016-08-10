@@ -21,7 +21,7 @@ class Stylelint_d(NodeLinter):
     npm_name = 'stylelint_d'
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
-    version_requirement = '>= 1.0.5'
+    version_requirement = '>= 1.0.6'
     line_col_base = (1, 1)
     error_stream = util.STREAM_BOTH
     comment_re = r'\s*/[/*]'

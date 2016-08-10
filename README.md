@@ -25,7 +25,7 @@ Before using this plugin, you must ensure that `stylelint_d` is installed on you
 1. If you are using `zsh` and `oh-my-zsh`, do not load the `nvm` plugin for `oh-my-zsh`.
 
 
-**Note:** This plugin requires `stylelint_d` 1.0.5 or later.
+**Note:** This plugin requires `stylelint_d` 1.0.6 or later.
 
 ### Linter configuration
 In order for `stylelint_d` to be executed by SublimeLinter, you must ensure that its path is available to SublimeLinter. Before going any further, please read and follow the steps in [“Finding a linter executable”](http://sublimelinter.readthedocs.org/en/latest/troubleshooting.html#finding-a-linter-executable) through “Validating your PATH” in the documentation.
