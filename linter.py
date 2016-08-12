@@ -44,8 +44,7 @@ class Stylelint_d(NodeLinter):
 
     def run(self, cmd, code):
         """
-        Runs the `stylelint_d` instance, which returns JSON, and
-        parses it into text that SublimeLinter can regex
+        Parse returned JSON into SublimeLinter friendly text.
         """
 
         raw = super().run(cmd, code)
