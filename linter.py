@@ -43,9 +43,7 @@ class Stylelint_d(NodeLinter):
     word_re = r'^(#?[-\w]+)'
 
     def run(self, cmd, code):
-        """
-        Parse returned JSON into SublimeLinter friendly text.
-        """
+        """Parse returned JSON into SublimeLinter friendly text."""
 
         raw = super().run(cmd, code)
         parsed = json.loads(raw)
