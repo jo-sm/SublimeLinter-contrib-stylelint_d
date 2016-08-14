@@ -46,15 +46,18 @@ class Stylelint_d(NodeLinter):
         """Parse returned JSON into SublimeLinter friendly text."""
 
         raw = super().run(cmd, code)
-        parsed = json.loads(raw)
-        result = []
+        try:
+            parsed = json.loads(raw)
+            result = []
 
-        for error in parsed[0]['warnings']:
-            result.append("{}:{} {} {}".format(
-                error['line'],
-                error['column'],
-                error['severity'],
-                error['text'])
-            )
+            for error in parsed[0]['warnings']:
+                result.append("{}:{} {} {}".format(
+                    error['line'],
+                    error['column'],
+                    error['severity'],
+                    error['text'])
+                )
 
-        return "\n".join(result)
+            return "\n".join(result)
+        except ValueError:
+            return raw
