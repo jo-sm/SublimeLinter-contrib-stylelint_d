@@ -21,7 +21,7 @@ class Stylelint_d(NodeLinter):
     cmd = ('stylelint_d', '--stdin', '--formatter=json', '--file', '@')
     npm_name = 'stylelint_d'
     version_args = '--version'
-    version_re = r'(?P<version>\d+\.\d+\.\d+)'
+    version_re = r'(?P<version>\d+\.\d+\.[0-9]?[0-9a-z]+)'
     version_requirement = '>= 1.0.8'
     line_col_base = (1, 1)
     error_stream = util.STREAM_BOTH
