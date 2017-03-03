@@ -1,0 +1,2 @@
+- Fixed an issue where sometimes the severity of the warning would be missing, causing SublimeLinter to crash
+- Added invalidOptionWarnings and deprecations into linter

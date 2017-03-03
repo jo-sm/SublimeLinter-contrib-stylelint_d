@@ -34,7 +34,7 @@ class Stylelint_d(NodeLinter):
     # Adapted from SublimeLinter-contrib-stylelint
     regex = (
         r'^\s*(?P<line>[0-9]+)\:(?P<col>[0-9]+)\s*'
-        r'(?:(?P<error>error)|(?P<warning>warning))\s*'
+        r'(?:(?P<error>error)|(?P<warning>warning))|(?P<deprecation>deprecation)|(?P<invalid>invalid)\s*'
         r'(?P<message>.+)'
     )
 
@@ -42,22 +42,47 @@ class Stylelint_d(NodeLinter):
     # Taken from SublimeLinter-csslint
     word_re = r'^(#?[-\w]+)'
 
+    def split_match(self, match):
+        """Override `split_match` to support invalidOptionWarnings and deprecations."""
+
+        original = super().split_match(match)
+        group = match.groupdict()
+
+        if group.get('deprecation') or group.get('invalid'):
+            return match, None, None, True, False, group.get('message'), None
+        else:
+            return original
+
     def run(self, cmd, code):
         """Parse returned JSON into SublimeLinter friendly text."""
 
         raw = super().run(cmd, code)
+
         try:
             parsed = json.loads(raw)
-            result = []
-
-            for error in parsed[0]['warnings']:
-                result.append("{}:{} {} {}".format(
-                    error['line'],
-                    error['column'],
-                    error['severity'],
-                    error['text'])
-                )
-
-            return "\n".join(result)
         except ValueError:
-            return raw
+            return []
+
+        result = []
+
+        try:
+            file_errors = parsed[0]  # Parsed is an array of each file data
+        except IndexError:
+            return []
+
+        for error in file_errors.get('deprecations', []):
+            result.append("0:0 deprecation {}".format(error.get('text')))
+
+        for error in file_errors.get('invalidOptionWarnings', []):
+            result.append('0:0 invalid {}'.format(error.get('text')))
+
+        for error in file_errors.get('warnings', []):
+            # Severity may not be present in the warning
+            result.append("{}:{} {} {}".format(
+                error.get('line', '0'),
+                error.get('column', '0'),
+                error.get('severity', 'error'),
+                error.get('text', ''))
+            )
+
+        return "\n".join(result)
