@@ -33,8 +33,8 @@ class Stylelint_d(NodeLinter):
     # https://github.com/kungfusheep/SublimeLinter-contrib-stylelint/blob/master/linter.py
     # Adapted from SublimeLinter-contrib-stylelint
     regex = (
-        r'^\s*(?P<line>[0-9]+)\:(?P<col>[0-9]+)\s*'
-        r'(?:(?P<error>error)|(?P<warning>warning))|(?P<deprecation>deprecation)|(?P<invalid>invalid)\s*'
+        r'^\s*(?P<line>[0-9]*)\:(?P<col>[0-9]*)\s*'
+        r'(?:(?P<error>error)|(?P<warning>warning)|(?P<deprecation>deprecation)|(?P<invalid>invalid))\s*'
         r'(?P<message>.+)'
     )
 
@@ -45,13 +45,16 @@ class Stylelint_d(NodeLinter):
     def split_match(self, match):
         """Override `split_match` to support invalidOptionWarnings and deprecations."""
 
-        original = super().split_match(match)
-        group = match.groupdict()
-
-        if group.get('deprecation') or group.get('invalid'):
-            return match, None, None, True, False, group.get('message'), None
+        if match:
+            group = match.groupdict()
+            if group.get('deprecation') or group.get('invalid'):
+                # We have to show the error on some line or else it won't
+                # show in Sublime
+                return match, 0, 0, True, False, group.get('message'), None
+            else:
+                return super().split_match(match)
         else:
-            return original
+            return super().split_match(match)
 
     def run(self, cmd, code):
         """Parse returned JSON into SublimeLinter friendly text."""
